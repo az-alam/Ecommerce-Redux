@@ -47,9 +47,6 @@ function Product() {
     }
 
 
-
-
-
     return (
         <section>
             <h1>Products</h1>
