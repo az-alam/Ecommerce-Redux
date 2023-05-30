@@ -1,12 +1,19 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Link } from 'react-router-dom';
+import { setDeleteItem } from './slices/Slice';
 
 function Cart() {
-  const cartData = useSelector((state) => { return state.ecommerce })
+  const dispatch=useDispatch();
+  const cartData = useSelector((state) => { return state.ecommerce });
 
-  useEffect(()=>{
-    localStorage.setItem("product", JSON.stringify(cartData.cart))
-  },[cartData.cart]) 
+  function handleDelete (e, items){
+    e.preventDefault();
+    dispatch(setDeleteItem(items))
+  }
+
+  
   // console.log(cartData)
   return (
     <>
@@ -24,6 +31,7 @@ function Cart() {
                     <h4>{items.title}</h4>
                     <p>{items.description}</p>
                     <p>{items.price}</p>
+                    <Link onClick={(e)=>handleDelete(e, items)}><DeleteIcon/></Link>
                   </div>
                 </div>
               )

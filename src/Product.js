@@ -11,7 +11,9 @@ function Product() {
     const initialProduct = useSelector((state) => { return state.ecommerce })
     useEffect(() => {
         dispatch(fetchdata())
-    }, [dispatch])
+        localStorage.setItem("product", JSON.stringify(initialProduct.cart))
+    }, [initialProduct.cart])
+
     if (initialProduct.loading) {
         return "...Loading"
     }
@@ -30,8 +32,21 @@ function Product() {
     function handleAddCart(e,items){
         e.preventDefault();
         dispatch(setCart(items))
-        console.log(items)
+        // console.log(items)
     }
+
+    function existInCart(itemId){
+        let exist=false;
+        initialProduct.cart.forEach((a)=>{
+            if(a.id===itemId){
+                exist=true;
+            }
+        
+        })
+        return exist    
+    }
+
+
 
 
 
@@ -53,7 +68,11 @@ function Product() {
                                         </details>
                                     </div>
                                     <div className='text-anchor'>
-                                        <a href='' className='anchor' onClick={(e) => handleAddCart(e, items)}>Add Cart</a>
+                                    {
+                                        (existInCart(items.id)?<a href='/' className='added'>Added To Cart</a>:
+                                        <a href='/' className='anchor' onClick={(e) => handleAddCart(e, items)}>Add Cart</a>)
+
+                                    }
                                     </div>
 
                                 </div>
